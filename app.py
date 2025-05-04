@@ -82,8 +82,8 @@ model.fit(X_train, y_train)
 st.subheader("🔍 Enter Patient Data:")
 user_data = user_input()
 
-# Ensure input matches model features
-user_data = user_data[X.columns]
+# Ensure input matches model features by reindexing
+user_data = user_data.reindex(columns=X.columns, fill_value=0)
 
 st.subheader("🧪 Prediction:")
 prediction = model.predict(user_data)
