@@ -9,13 +9,14 @@ st.set_page_config(page_title="AI Disease Predictor", layout="centered")
 st.title("🧠 AI-Powered Disease Prediction")
 st.markdown("Transforming healthcare with AI-powered disease prediction based on patient data")
 
-# Helper for yes/no fields
+# Helper
 def yes_no_to_binary(choice):
     return 1 if choice == "Yes" else 0
 
 # Disease selection
 disease_option = st.selectbox("Select Disease to Predict", ["Heart Disease", "Diabetes"])
 
+# Disease-specific config
 if disease_option == "Heart Disease":
     url = "https://raw.githubusercontent.com/sharmaroshan/Heart-UCI-Dataset/master/heart.csv"
     df = pd.read_csv(url)
@@ -24,9 +25,12 @@ if disease_option == "Heart Disease":
     disease_name = "Heart Disease"
 
     def user_input():
+        sex_input = st.selectbox("Sex", ["Male", "Female"])
+        sex = 1 if sex_input == "Male" else 0
+
         return pd.DataFrame({
             "age": [st.slider("Age", 29, 77, 55)],
-            "sex": [st.selectbox("Sex", ["Male", "Female"]).replace({"Male": 1, "Female": 0})],
+            "sex": [sex],
             "cp": [st.slider("Chest Pain Type (0–3)", 0, 3, 1)],
             "trestbps": [st.slider("Resting BP", 94, 200, 130)],
             "chol": [st.slider("Cholesterol", 126, 564, 246)],
@@ -69,13 +73,17 @@ elif disease_option == "Diabetes":
             "DiffWalk": [yes_no_to_binary(st.selectbox("Difficulty Walking", ["Yes", "No"]))]
         })
 
-# Train and predict
+# Model training
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
+# UI
 st.subheader("🔍 Enter Patient Data:")
 user_data = user_input()
+
+# Ensure input matches model features
+user_data = user_data[X.columns]
 
 st.subheader("🧪 Prediction:")
 prediction = model.predict(user_data)
