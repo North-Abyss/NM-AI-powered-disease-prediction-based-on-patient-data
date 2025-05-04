@@ -7,7 +7,7 @@ Transforming healthcare with AI by enabling early prediction of diseases like He
 ![Status](https://img.shields.io/badge/Project-Completed-blue)
 
 ## 🚀 Live Demo
-🔗 [Click here to try the app on Streamlit Cloud](https://your-streamlit-app-link)
+🔗 [Click here to try the app on Streamlit Cloud]([https://your-streamlit-app-link](https://nmksyaipredictionbasedonpatientdata.streamlit.app/))
 
 ## 📌 Project Highlights
 
